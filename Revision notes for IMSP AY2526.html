@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revision Note for IMSP AY25226</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: auto;
+            padding: 1rem;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 0.8rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 0.2rem;
+            margin-top: 2rem;
+        }
+
+        h3,
+        h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Revision Note – LaTeX &amp; Python Templates</h1>
+
+    <!-- ==================== LATEX ==================== -->
+    <div class="section">
+        <h2>LaTeX</h2>
+
+        <h3>Presettings &amp; Frontpages</h3>
+        <ol>
+            <li>
+                <h4>Document setup</h4>
+                <pre><code>
+\documentclass{article}
+\title{Title}
+\author{Author}
+\date{\today}
+\begin{document}
+    \maketitle
+    \tableofcontents
+    \listoffigures
+    \listoftables
+    \newpage
+    % content
+\end{document}
+                </code></pre>
+            </li>
+            <li>
+                <h4>Sections</h4>
+                <pre><code>
+\section{Section}
+\subsection{Subsection}
+\subsubsection{Subsubsection}
+                </code></pre>
+            </li>
+        </ol>
+
+        <h3>Lists</h3>
+        <ul>
+            <li><strong>Unordered</strong>
+                <pre><code>
+\begin{itemize}
+    \item Item 1
+    \item Item 2
+\end{itemize}
+                </code></pre>
+            </li>
+            <li><strong>Ordered</strong>
+                <pre><code>
+\begin{enumerate}
+    \item Item 1
+    \item Item 2
+\end{enumerate}
+                </code></pre>
+            </li>
+        </ul>
+
+        <h3>Math</h3>
+        <ul>
+            <li><strong>Inline:</strong> <code>$E=mc^2$</code></li>
+            <li><strong>Display:</strong> <code>\[E=mc^2\]</code></li>
+            <li><strong>Numbered equation:</strong>
+                <pre><code>
+\begin{equation}
+    E=mc^2
+\end{equation}
+                </code></pre>
+                (use <code>equation*</code> to hide number)
+            </li>
+            <li><strong>Align:</strong>
+                <pre><code>
+\begin{align}
+    a &= b + c \\
+    d &= e + f
+\end{align}
+                </code></pre>
+            </li>
+            <li><strong>Matrix (bracket):</strong>
+                <pre><code>
+\begin{bmatrix}
+    a & b \\
+    c & d
+\end{bmatrix}
+                </code></pre>
+            </li>
+            <li><strong>Matrix (parenthesis):</strong>
+                <pre><code>
+\begin{pmatrix}
+    a & b \\
+    c & d
+\end{pmatrix}
+                </code></pre>
+            </li>
+        </ul>
+
+        <h3>Tables and Figures</h3>
+        <ul>
+            <li><strong>Figure</strong>
+                <pre><code>
+\begin{figure}
+    \centering
+    \includegraphics{image.png}   % file in same folder
+    \caption{Caption}
+    \label{fig:my-fig}
+\end{figure}
+                </code></pre>
+            </li>
+            <li><strong>Table (floating)</strong>
+                <pre><code>
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Col1 & Col2 & Col3 \\
+        \hline
+        A    & B    & C    \\
+        \hline
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my-tab}
+\end{table}
+                </code></pre>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ==================== PYTHON ==================== -->
+    <div class="section">
+        <h2>Python – NumPy &amp; Plotting</h2>
+
+        <h3>1. NumPy essentials</h3>
+        <pre><code>
+import numpy as np
+
+a = np.array([1.5, 0, 1.2])
+b = np.array([[1,2,3],[4,5,6]])
+
+# quick arrays
+np.zeros((3,4))
+np.ones(5, dtype=int)
+np.arange(0,10,2)
+np.linspace(0, 1, 100)
+        </code></pre>
+
+        <h4>Indexing &amp; slicing</h4>
+        <pre><code>
+arr = np.arange(12).reshape(3,4)
+arr[1,2]        # element
+arr[0, :]       # first row
+arr[:, 1]       # second column
+        </code></pre>
+
+        <h4>Boolean filtering</h4>
+        <pre><code>
+mask = arr > 5
+arr[mask]                     # values >5
+np.nonzero(mask)              # indexes
+        </code></pre>
+
+        <h4>Linear algebra</h4>
+        <pre><code>
+A @ B                         # matrix product
+np.linalg.inv(A)
+np.linalg.det(A)
+np.linalg.solve(A, b)         # Ax = b
+        </code></pre>
+
+        <h4>Polynomial fitting</h4>
+        <pre><code>
+from numpy.polynomial import Polynomial
+p = Polynomial.fit(x_data, y_data, deg)
+coeffs = p.convert()           # standard coefficients
+y_fit = p(x_fine)              # evaluate on fine grid
+        </code></pre>
+
+        <h3>2. Matplotlib – Plot templates</h3>
+        <pre><code>
+import matplotlib.pyplot as plt
+        </code></pre>
+
+        <h4>Line plot with customisation</h4>
+        <pre><code>
+x = np.linspace(0, 2*np.pi, 200)
+plt.plot(x, np.sin(x), 'r--', linewidth=2, label='sin')
+plt.plot(x, np.cos(x), 'b-', label='cos')
+plt.xlabel('x'), plt.ylabel('y')
+plt.title('Trig functions')
+plt.legend(), plt.grid(True)
+plt.show()
+        </code></pre>
+
+        <h4>Scatter plot + regression line</h4>
+        <pre><code>
+# generate noisy data
+x = np.random.rand(50) * 10
+y = 2 * x + 3 + np.random.randn(50)
+
+# fit polynomial of degree 1
+fit = Polynomial.fit(x, y, 1)
+coeff = fit.convert()
+
+plt.scatter(x, y, alpha=0.6, label='data')
+x_line = np.linspace(x.min(), x.max(), 100)
+plt.plot(x_line, fit(x_line), 'red', label=f'y = {coeff[0]:.2f} + {coeff[1]:.2f}x')
+plt.legend()
+plt.show()
+        </code></pre>
+
+        <h4>Histogram</h4>
+        <pre><code>
+data = np.random.randn(1000)
+plt.hist(data, bins=30, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title('Histogram')
+plt.show()
+        </code></pre>
+
+        <h4>Bar chart</h4>
+        <pre><code>
+cats = ['A','B','C','D','E']
+vals = [3, 7, 5, 4, 9]
+plt.bar(cats, vals, color='royalblue')
+plt.title('Bar Chart')
+plt.show()
+        </code></pre>
+
+        <h4>Pie chart</h4>
+        <pre><code>
+labels = ['Apple','Banana','Orange','Melon']
+sizes = [15, 20, 10, 5]
+plt.pie(sizes, labels=labels, autopct='%1.1f%%')
+plt.title('Pie Chart')
+plt.show()
+        </code></pre>
+
+        <h4>Filled region</h4>
+        <pre><code>
+x = np.linspace(0, np.pi, 200)
+y = np.exp(np.sin(x)) * np.sin(2*x)
+plt.plot(x, y, 'navy')
+plt.fill_between(x, y, 0, where=(x>0)&(x<np.pi/2), color='skyblue', alpha=0.4)
+plt.title('Filled area')
+plt.show()
+        </code></pre>
+
+        <h4>LaTeX ticks</h4>
+        <pre><code>
+plt.xticks([0, np.pi/2, np.pi], [r'$0$', r'$\pi/2$', r'$\pi$'])
+        </code></pre>
+    </div>
+
+    <footer style="margin-top: 2rem; font-size: 0.9em; color: #666;">
+        Templates based on IMSP AY25226 course notes (LaTeX &amp; Python).
+    </footer>
+</body>
+
+</html>
